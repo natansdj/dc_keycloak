@@ -1,0 +1,32 @@
+version: '2.1'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:17
+    container_name: dev_keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      TZ: "Asia/Jakarta"
+    volumes:
+      - storage:/storage
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    mem_limit: 500m
+    networks:
+      default:
+        ipv4_address: 172.18.0.25
+
+volumes:
+  storage:
+    driver: local
+    driver_opts:
+      type: bind
+      device: /home/nath/Documents/keycloak/backup
+      o: bind
+
+networks:
+  default:
+    external:
+      name: dev
